@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<head>
+    <title>ajax training</title>
+  
+</head>
+<body>
+
+   
+
+    <button onclick="myxhr()">click here json</button><br>
+    <button onclick="myxhr2()">click here txt</button><br>
+    <button onclick="myxhr3()">click here php get</button><br>
+    <button onclick="myxhr4()">click here php post</button>
+
+<div id="first">
+
+</div>
+
+<div id="one">
+
+</div>
+<div id="two">
+
+</div>
+<div id="three">
+
+</div>
+
+
+
+<span id="secondSpan">
+    iam secondSpan
+</span>
+<button id="mybutton">click here jquery get</button>
+<button id="mybutton2">click here jquery post</button>
+
+<script>
+   //////////////////////////////////read from json file//////////////////////////////////////////
+    //i made function to when i call it make the xhr connection
+    function myxhr(){
+// i assigned the xhr to avariable named my request
+        var myrequest=new XMLHttpRequest();
+        // open the request to
+         myrequest.open("GET","http://127.0.0.1/ajaxTraining/mohamed.json",true);
+myrequest.onreadystatechange=function(){
+    console.log(this.readyState);
+  console.log(this.status);
+if(this.readyState===4 /*the request is finished*/&& this.status===200/*the server is responed*/){
+    //convert the json object to javascript object
+    //the responsetext is the response of the server on my request
+myjsobject=JSON.parse(this.responseText);
+
+//loop on the data after converting it on js obbject
+    for(let i=0;i<myjsobject.length;i++)
+    {
+        console.log(myjsobject[i].username);
+    }
+ // console.log(this.responseText);
+ 
+}
+
+}
+myrequest.send();
+
+    }
+        //////////////////////////////////end read from json file//////////////////////////////////////////
+
+       //////////////////////////////////read from txt file//////////////////////////////////////////
+    //i made function to when i call it make the xhr connection
+    function myxhr2(){
+// i assigned the xhr to avariable named my request
+        var myrequest=new XMLHttpRequest();
+        // open the request to
+         myrequest.open("GET","http://127.0.0.1/ajaxTraining/mohamed.txt",true);
+myrequest.onreadystatechange=function(){
+    console.log(this.readyState);
+  console.log(this.status);
+if(this.readyState===4 /*the request is finished*/&& this.status===200/*the server is responed*/){
+
+     //the responsetext is the response of the server on my request
+        console.log(this.responseText);
+    
+ // console.log(this.responseText);
+ 
+}
+
+}
+myrequest.send();
+
+    }
+
+//////////////////////////////////end read from txt file//////////////////////////////////////////
+
+     //////////////////////////////////read from php file (GET)//////////////////////////////////////////
+    //i made function to when i call it make the xhr connection
+    function myxhr3(){
+// i assigned the xhr to avariable named my request
+        var myrequest=new XMLHttpRequest();
+        // open the request to
+         myrequest.open("GET","http://127.0.0.1/ajaxTraining/mohamed.php?name=gemy&age=28",true);
+myrequest.onreadystatechange=function(){
+    console.log(this.readyState);
+  console.log(this.status);
+if(this.readyState===4 /*the request is finished*/&& this.status===200/*the server is responed*/){
+
+     //the responsetext is the response of the server on my request
+        console.log(this.responseText);
+    
+ // console.log(this.responseText);
+ 
+}
+
+}
+myrequest.send();
+
+    }
+
+//////////////////////////////////end read from php file(GET)//////////////////////////////////////////
+
+     //////////////////////////////////read from php file (POST)//////////////////////////////////////////
+    //i made function to when i call it make the xhr connection
+    function myxhr4(){
+// i assigned the xhr to avariable named my request
+        var myrequest=new XMLHttpRequest();
+       
+myrequest.onreadystatechange=function(){
+    console.log(this.readyState);
+  console.log(this.status);
+if(this.readyState===4 /*the request is finished*/&& this.status===200/*the server is responed*/){
+
+     //the responsetext is the response of the server on my request
+        console.log(this.responseText);
+    
+ // console.log(this.responseText);
+ 
+}
+
+}
+ // open the request to
+ myrequest.open("POST","http://127.0.0.1/ajaxTraining/mohamed.php",true);
+myrequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+myrequest.send("name=ali&age=23");
+
+    }
+
+//////////////////////////////////end read from php file(POST)//////////////////////////////////////////
+</script>
+  
+
+
+
+<!--------------------------------------start the training by jquery------------------------------------------------>
+<script src="jquery-2.1.4.min.js"></script>
+<script>
+    //trainin on function of load
+    $(function(){
+
+        $("#first").load("http://127.0.0.1/ajaxTraining/mohamed.txt");
+
+    });
+//THE LOAD FUNCTION TAKE TWO PARAMERTERS FIRST IS THE SOURCE AND SECOND IS CALLBACK FUNCTION
+    $(function(){
+
+$("#secondSpan").load("http://127.0.0.1/ajaxTraining/demo.html #demodiv",function(responseText ,statusText, XHR){
+
+document.getElementById("one").innerHTML=responseText;
+document.getElementById("two").innerHTML=statusText;
+document.getElementById("three").innerHTML=XHR.responseText;
+
+});
+
+});
+
+//GET METHOD WITH THE JQUERY 
+$(function(){
+    $("#mybutton").on("click",function(){
+       $.get("http://127.0.0.1/ajaxTraining/mohamed.php?name=gemy&age=28",function(responsetext,statustext,xhr)
+       {
+            alert(responsetext+statustext+xhr);
+       });
+    });
+});
+
+//post METHOD WITH THE JQUERY 
+$(function(){
+    $("#mybutton2").on("click",function(){
+       $.post("http://127.0.0.1/ajaxTraining/mohamed.php?",{name:"sayed",age:12},function(responsetext,statustext,xhr)
+       {
+            alert(responsetext+statustext+xhr);
+       });
+    });
+});
+
+    
+</script>
+
+</body>
+
+
+
+</html>
