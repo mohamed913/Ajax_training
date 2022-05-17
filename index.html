@@ -4,9 +4,6 @@
   
 </head>
 <body>
-
-   
-
     <button onclick="myxhr()">click here json</button><br>
     <button onclick="myxhr2()">click here txt</button><br>
     <button onclick="myxhr3()">click here php get</button><br>
@@ -31,6 +28,17 @@
 <span id="secondSpan">
     iam secondSpan
 </span>
+
+
+
+<input name="comment" placeholder="add comment" id="input_comment" ><button id="addcomment">add comment</button>
+
+
+<div id="comments">
+
+
+
+</div>
 <button id="mybutton">click here jquery get</button>
 <button id="mybutton2">click here jquery post</button>
 
@@ -41,7 +49,7 @@
 // i assigned the xhr to avariable named my request
         var myrequest=new XMLHttpRequest();
         // open the request to
-         myrequest.open("GET","http://127.0.0.1/ajaxTraining/mohamed.json",true);
+         myrequest.open("GET","http://127.0.0.1/ajaxTraining/json/mohamed.json",true);
 myrequest.onreadystatechange=function(){
     console.log(this.readyState);
   console.log(this.status);
@@ -71,7 +79,7 @@ myrequest.send();
 // i assigned the xhr to avariable named my request
         var myrequest=new XMLHttpRequest();
         // open the request to
-         myrequest.open("GET","http://127.0.0.1/ajaxTraining/mohamed.txt",true);
+         myrequest.open("GET","http://127.0.0.1/ajaxTraining/txtfile/mohamed.txt",true);
 myrequest.onreadystatechange=function(){
     console.log(this.readyState);
   console.log(this.status);
@@ -97,7 +105,7 @@ myrequest.send();
 // i assigned the xhr to avariable named my request
         var myrequest=new XMLHttpRequest();
         // open the request to
-         myrequest.open("GET","http://127.0.0.1/ajaxTraining/mohamed.php?name=gemy&age=28",true);
+         myrequest.open("GET","http://127.0.0.1/ajaxTraining/phpfile/mohamed.php?name=gemy&age=28",true);
 myrequest.onreadystatechange=function(){
     console.log(this.readyState);
   console.log(this.status);
@@ -137,7 +145,7 @@ if(this.readyState===4 /*the request is finished*/&& this.status===200/*the serv
 
 }
  // open the request to
- myrequest.open("POST","http://127.0.0.1/ajaxTraining/mohamed.php",true);
+ myrequest.open("POST","http://127.0.0.1/ajaxTraining/phpfile/mohamed.php",true);
 myrequest.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 myrequest.send("name=ali&age=23");
 
@@ -150,18 +158,18 @@ myrequest.send("name=ali&age=23");
 
 
 <!--------------------------------------start the training by jquery------------------------------------------------>
-<script src="jquery-2.1.4.min.js"></script>
+<script src="jquery/jquery-2.1.4.min.js"></script>
 <script>
     //trainin on function of load
     $(function(){
 
-        $("#first").load("http://127.0.0.1/ajaxTraining/mohamed.txt");
+        $("#first").load("http://127.0.0.1/ajaxTraining/txtfile/mohamed.txt");
 
     });
 //THE LOAD FUNCTION TAKE TWO PARAMERTERS FIRST IS THE SOURCE AND SECOND IS CALLBACK FUNCTION
     $(function(){
 
-$("#secondSpan").load("http://127.0.0.1/ajaxTraining/demo.html #demodiv",function(responseText ,statusText, XHR){
+$("#secondSpan").load("http://127.0.0.1/ajaxTraining/Demo/demo.html #demodiv",function(responseText ,statusText, XHR){
 
 document.getElementById("one").innerHTML=responseText;
 document.getElementById("two").innerHTML=statusText;
@@ -174,7 +182,7 @@ document.getElementById("three").innerHTML=XHR.responseText;
 //GET METHOD WITH THE JQUERY 
 $(function(){
     $("#mybutton").on("click",function(){
-       $.get("http://127.0.0.1/ajaxTraining/mohamed.php?name=gemy&age=28",function(responsetext,statustext,xhr)
+       $.get("http://127.0.0.1/ajaxTraining/phpfile/mohamed.php?name=gemy&age=28",function(responsetext,statustext,xhr)
        {
             alert(responsetext+statustext+xhr);
        });
@@ -184,13 +192,61 @@ $(function(){
 //post METHOD WITH THE JQUERY 
 $(function(){
     $("#mybutton2").on("click",function(){
-       $.post("http://127.0.0.1/ajaxTraining/mohamed.php?",{name:"sayed",age:12},function(responsetext,statustext,xhr)
+       $.post("http://127.0.0.1/ajaxTraining/phpfile/mohamed.php?",{name:"sayed",age:12},function(responsetext,statustext,xhr)
        {
             alert(responsetext+statustext+xhr);
        });
     });
 });
+   
 
+///////////////////////example from the real life //////////////////////////////////////////////
+
+var myarr=["comment1","comment2","comment3"];
+  
+
+   for(var i=0;i<myarr.length;i++)
+   {
+    //console.log(myarr[i]);
+  document.getElementById('comments').innerHTML=myarr;
+   }
+    $(function(){
+
+     $("#addcomment").on("click",function(){
+        
+     $.ajax({
+        method:"POST",
+        url:"http://127.0.0.1/ajaxTraining/phpfile/comments.php",
+        data:{
+            //comment will send in the post method and add to comments which in array there
+           comment:$("#input_comment").val(),
+        },
+      
+        success:function(responsetext,statustext,xhr){
+            if(statustext=="success"){
+             
+
+         $("#comments").html(responsetext);
+          console.log(responsetext);
+        
+
+                }
+
+           
+
+        },
+        
+        error:function(xhr,status,error){
+           
+                console.log(error);
+            
+
+        },
+
+     });
+
+     });
+});
     
 </script>
 
