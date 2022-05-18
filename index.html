@@ -258,20 +258,34 @@ $(function(){
    
 
 ///////////////////////example from the real life //////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
 
-var myarr=["comment1","comment2","comment3"];
-  
+//function to get all comments when the document load
+  $(document).ready(function() {
 
-   for(var i=0;i<myarr.length;i++)
-   {
-    //console.log(myarr[i]);
-  document.getElementById('comments').innerHTML=myarr;
-   }
+    $.ajax({
+        method:"GET",
+        url:"http://127.0.0.1/ajaxTraining/phpfile/comments.php",
+      
+      success:function(responsetext,statustext,xhr){
+            if(statustext=="success"){
+        $("#comments").html(responsetext);
+        }
+      },
+      error:function(xhr,status,error){
+            console.log(error);
+            },
+          });
+   });
+
+   //end  function to get all comments when the document load
+
+
+//function to post the new comments when click on add comment button
     $(function(){
-
-     $("#addcomment").on("click",function(){
-        
-     $.ajax({
+ $("#addcomment").on("click",function(){
+         $.ajax({
         method:"POST",
         url:"http://127.0.0.1/ajaxTraining/phpfile/comments.php",
         data:{
@@ -281,26 +295,30 @@ var myarr=["comment1","comment2","comment3"];
       
         success:function(responsetext,statustext,xhr){
             if(statustext=="success"){
-             
-
-         $("#comments").html(responsetext);
-          console.log(responsetext);
-        
-
-                }
-
-           
-
-        },
-        
+             $("#comments").html(responsetext);
+             }
+            },
         error:function(xhr,status,error){
-           
-                console.log(error);
-            
-
-        },
-
-     });
+           console.log(error);
+              },
+        complete:function(xhr,status){
+           //when compelte get all comments to show the new comment
+            $.ajax({
+        method:"GET",
+        url:"http://127.0.0.1/ajaxTraining/phpfile/comments.php",
+         success:function(responsetext,statustext,xhr){
+            if(statustext=="success"){
+               $("#comments").html(responsetext);
+              }
+            },
+        error:function(xhr,status,error){
+          console.log(error);
+               },
+              
+               });
+              
+              },
+            });
 
      });
 });
